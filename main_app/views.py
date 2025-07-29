@@ -2,6 +2,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Cat
+# Add UdpateView & DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 # Home view
 
 
@@ -23,6 +26,35 @@ def cat_index(request):
 def cat_detail(request, cat_id):
     cat = Cat.objects.get(id=cat_id)  # get the cat by id
     return render(request, 'cats/detail.html', {'cat': cat})
+# main-app/views.py
+
+
+
+class CatCreate(CreateView):
+    model = Cat
+    fields = ['name', 'breed', 'description', 'age']
+
+    #success_url = '/cats/'
+class CatUpdate(UpdateView):
+    model = Cat
+    # Let's disallow the renaming of a cat by excluding the name field!
+    fields = ['breed', 'description', 'age']
+class CatDelete(DeleteView):
+    model = Cat
+    success_url = '/cats/'
+
+    #
+
+
+
+
+
+
+
+
+
+
+
 
 
 
